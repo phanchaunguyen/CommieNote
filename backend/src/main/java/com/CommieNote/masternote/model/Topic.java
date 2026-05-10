@@ -23,6 +23,10 @@ public class Topic extends BaseEntity {
     @Column(columnDefinition = "TEXT")
     private String description;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "created_by", referencedColumnName = "username")
+    private User createdBy;
+
     // Chuỗi URL thân thiện (VD: lap-trinh-java)
     @Column(unique = true, nullable = false)
     private String slug;
