@@ -5,12 +5,16 @@ import com.CommieNote.masternote.dto.TopicResponse;
 import com.CommieNote.masternote.model.Topic;
 import com.CommieNote.masternote.service.TopicService;
 import com.CommieNote.masternote.dto.MessageResponse;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.UUID;
+import java.util.List;
+
 
 @RequestMapping("/api/topics")
 @RestController
@@ -37,6 +41,24 @@ public class TopicController {
                 .build();
 
         return ResponseEntity.ok(topicResponse);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<TopicResponse>> getUserTopics(){
+
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        List<TopicResponse> topics = topicService.getUserTopics(username);
+
+        return ResponseEntity.ok(topics);
+    }
+
+    @GetMapping("/public")
+    public ResponseEntity<List<TopicResponse>> getPublicTopics(){
+
+        List<TopicResponse> topics = topicService.getPublicTopics();
+
+        return ResponseEntity.ok(topics);
     }
 
     @PutMapping("/{id}")

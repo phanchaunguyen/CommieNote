@@ -13,5 +13,8 @@ public interface TopicRepository extends JpaRepository<Topic, UUID> {
     List<Topic> findByCreatedBy(User user);
 
     List<Topic> findByCreatedBy_Username(String user);
+
+
+    List<Topic> findByIsPublicTrue();
 }
 

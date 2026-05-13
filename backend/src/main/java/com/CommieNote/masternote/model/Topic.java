@@ -27,6 +27,10 @@ public class Topic extends BaseEntity {
     @JoinColumn(name = "created_by", referencedColumnName = "username")
     private User createdBy;
 
+    @Column(name = "is_public", nullable = false)
+    @Builder.Default
+    private boolean isPublic = true;
+
     // Chuỗi URL thân thiện (VD: lap-trinh-java)
     @Column(unique = true, nullable = false)
     private String slug;

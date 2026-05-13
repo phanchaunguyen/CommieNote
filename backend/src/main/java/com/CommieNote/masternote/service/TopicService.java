@@ -5,10 +5,13 @@ import com.CommieNote.masternote.model.User;
 import com.CommieNote.masternote.repository.TopicRepository;
 import com.CommieNote.masternote.repository.UserRepository;
 import com.CommieNote.masternote.dto.TopicRequest;
+import com.CommieNote.masternote.dto.TopicResponse;
 
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.text.Normalizer;
+import java.util.List;
 import java.util.regex.Pattern;
 import java.util.UUID;
 
@@ -33,6 +36,40 @@ public class TopicService {
         topic.setSlug(generatedSlug);
 
         return topicRepository.save(topic);
+    }
+
+    public List<TopicResponse> getUserTopics(String username) {
+        User user = userRepository.findByUsername(username).orElseThrow(() -> new RuntimeException("No username found"));
+
+        List<Topic> topics = topicRepository.findByCreatedBy_Username(username);
+
+        return topics.stream()
+                .map(topic -> TopicResponse.builder()
+                        .id(topic.getId())
+                        .name(topic.getName())
+                        .description(topic.getDescription())
+                        .slug(topic.getSlug())
+                        .createdBy(topic.getCreatedBy().getUsername())
+                        .build()
+                )
+                .collect(Collectors.toList());
+
+    }
+
+    public List<TopicResponse> getPublicTopics(){
+
+        List<Topic> topics = topicRepository.findByIsPublicTrue();
+
+        return topics.stream()
+                .map(topic -> TopicResponse.builder()
+                        .id(topic.getId())
+                        .name(topic.getName())
+                        .description(topic.getDescription())
+                        .slug(topic.getSlug())
+                        .createdBy(topic.getCreatedBy().getUsername())
+                        .build()
+                )
+                .collect(Collectors.toList());
     }
 
     public Topic updateTopic(UUID topicId, TopicRequest topicRequest, String username) {
