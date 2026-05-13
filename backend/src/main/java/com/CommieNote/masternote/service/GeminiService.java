@@ -23,4 +23,25 @@ public class GeminiService {
 
         return chatModel.call(promtBuilder.toString());
     }
+
+    public String generateMasterNote(String oldMasterNote, List<String> unmergedSubNotes){
+        StringBuilder promtBuilder = new StringBuilder();
+
+        promtBuilder.append("You are a professional individual in this field of work");
+
+        if (oldMasterNote != null && oldMasterNote.isEmpty()) {
+            promtBuilder.append("This is the current MasterNote: \n");
+            promtBuilder.append("\"").append(oldMasterNote).append("\"\n");
+            promtBuilder.append("Here are new subNotes, mix the new subNotes with the MasterNote to create a complete summary of the topic, add sections if needed, no repetition");
+        }
+        else {
+            promtBuilder.append("Here are new subNotes, combine them together to create a complete summary of the topic, add sections if needed, no repetition \n");
+        }
+
+        for (int i = 0; i < unmergedSubNotes.size(); i++) {
+            promtBuilder.append(i+1).append(". ").append(unmergedSubNotes.get(i)).append("\n");
+        }
+
+        return chatModel.call(promtBuilder.toString());
+    }
 }
