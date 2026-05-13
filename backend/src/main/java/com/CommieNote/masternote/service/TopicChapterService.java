@@ -29,10 +29,19 @@ public class TopicChapterService {
             throw new RuntimeException("You are not the owner of this topic");
         }
 
+        // Tự tăng index chapter
+        int maxOrderIndex;
+        if (request.getOrderIndex() != null) {
+            maxOrderIndex = request.getOrderIndex();
+        }
+        else {
+            maxOrderIndex = topicChapterRepository.findMaxOrderIndexByTopic(topic).orElse(-1) + 1;
+        }
+
         TopicChapter chapter = new TopicChapter();
         chapter.setTopic(topic);
         chapter.setTitle(request.getTitle());
-        chapter.setOrderIndex(request.getOrderIndex());
+        chapter.setOrderIndex(maxOrderIndex);
 
         TopicChapter savedChapter = topicChapterRepository.save(chapter);
 

@@ -28,7 +28,7 @@ public class UserNote extends BaseEntity {
     @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
 
-    // Cờ báo hiệu note này đã được gộp vào SubMasterNote (Note phụ) hay chưa
+    // gộp vào SubMasterNote
     @Column(name = "is_merged_to_sub", nullable = false)
     @Builder.Default
     private boolean isMergedToSub = false;

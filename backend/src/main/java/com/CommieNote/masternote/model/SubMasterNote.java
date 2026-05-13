@@ -23,7 +23,7 @@ public class SubMasterNote extends BaseEntity {
     @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
 
-    // Cờ báo hiệu Note phụ này đã được Job nửa đêm gom vào Master Note hay chưa
+    // gom vào MasterNote
     @Column(name = "is_merged_to_master", nullable = false)
     @Builder.Default
     private boolean isMergedToMaster = false;
