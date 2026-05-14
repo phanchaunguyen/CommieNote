@@ -16,6 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -69,6 +71,26 @@ public class UserNoteService {
                 .content(newNote.getContent())
                 .author(user.getUsername())
                 .chapterId(chapter.getId())
+                .build();
+    }
+
+    public NoteResponse getNoteByChapterAndUser(UUID chapterId, String username) {
+        User user = userRepository.findByUsername(username).orElseThrow(() -> new RuntimeException("User not authenticated"));
+
+        TopicChapter chapter = topicChapterRepository.findById(chapterId).orElseThrow(() -> new RuntimeException("No note found"));
+
+        Optional<UserNote> noteOpt = userNoteRepository.findByChapterIdAndUser_Username(chapterId, username);
+
+        if (noteOpt.isEmpty()) {
+            return null;
+        }
+
+        UserNote note = noteOpt.get();
+        return NoteResponse.builder()
+                .id(note.getId())
+                .content(note.getContent())
+                .author(user.getUsername())
+                .chapterId(note.getChapter().getId())
                 .build();
     }
 

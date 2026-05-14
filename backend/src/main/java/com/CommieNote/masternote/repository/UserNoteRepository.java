@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -16,4 +17,6 @@ public interface UserNoteRepository extends JpaRepository<UserNote, UUID> {
     List<UserNote> findByChapter(TopicChapter topicChapter);
 
     List<UserNote> findTop5ByChapterAndIsMergedToSubFalseOrderByCreatedAtAsc(TopicChapter topicChapter);
+
+    Optional<UserNote> findByChapterIdAndUser_Username(UUID chapterId, String username);
 }

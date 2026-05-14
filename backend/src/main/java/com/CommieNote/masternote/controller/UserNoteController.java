@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 
 import lombok.RequiredArgsConstructor;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/api/notes")
 @RequiredArgsConstructor
@@ -21,6 +23,19 @@ public class UserNoteController {
     public ResponseEntity<NoteResponse> createNote(@RequestBody NoteRequest noteRequest){
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         NoteResponse response = userNoteService.createNote(noteRequest,username);
+        return ResponseEntity.ok(response);
+    }
+
+
+    @GetMapping("/chapter/{chapterId}")
+    public ResponseEntity<NoteResponse> getNoteByChapter(@PathVariable UUID chapterId){
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        NoteResponse response = userNoteService.getNoteByChapterAndUser(chapterId, username);
+
+        if (response == null) {
+            return ResponseEntity.noContent().build();
+        }
+
         return ResponseEntity.ok(response);
     }
 }
