@@ -38,25 +38,25 @@ export default function Login() {
     return (
         <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
             <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8">
-                <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">Đăng nhập CommieNote</h2>
+                <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">Login CommieNote</h2>
 
                 {error && <div className="bg-red-100 text-red-600 p-3 rounded-lg mb-4 text-sm text-center">{error}</div>}
 
                 <form onSubmit={handleLogin} className="space-y-6">
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Tên đăng nhập</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">Username</label>
                         <input
                             type="text"
                             required
                             className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
-                            placeholder="Nhập username..."
+                            placeholder="Enter username..."
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
                         />
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Mật khẩu</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">Password</label>
                         <input
                             type="password"
                             required
@@ -71,14 +71,14 @@ export default function Login() {
                         type="submit"
                         className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition-colors"
                     >
-                        Vào trong thôi!
+                        Lesssgoooo!
                     </button>
                 </form>
 
                 <p className="mt-6 text-center text-gray-600">
-                    Chưa có tài khoản?{' '}
+                    No account yet?{' '}
                     <Link to="/register" className="text-blue-600 hover:underline font-semibold">
-                        Đăng ký ngay
+                        Register now
                     </Link>
                 </p>
             </div>

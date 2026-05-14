@@ -23,9 +23,9 @@ public class MasterNoteScheduler {
     private final MasterNoteRepository masterNoteRepository;
     private final GeminiService geminiService;
 
+//    @Scheduled(fixedRate = 30000)
     //  00:00:00
-//    @Scheduled(cron = "0 0 0 * * ?")
-    @Scheduled(fixedRate = 30000)
+    @Scheduled(cron = "0 0 0 * * ?")
     @Transactional
     public void runMasterNoteAggregationJob() {
         System.out.println("=== Generating MasterNote at 0h00 ===");

@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
 
-// --- 1. KHAI BÁO INTERFACES ---
 interface Topic {
     id: string;
     name: string;
@@ -64,7 +63,7 @@ export default function Dashboard() {
         ],
     }), []);
 
-    // --- 2. CÁC HÀM GỌI API ---
+    //  API
     const getToken = () => localStorage.getItem('token');
 
     const fetchTopics = async (isPublic: boolean) => {
@@ -163,7 +162,7 @@ export default function Dashboard() {
         navigate('/login');
     };
 
-    // --- 3. EFFECTS (Cơ chế đồng bộ UI) ---
+    // EFFECTS (Cơ chế đồng bộ UI)
     useEffect(() => {
         fetchTopics(activeTab === 'PUBLIC_TOPICS');
         setSelectedTopic(null); setSelectedChapter(null);
@@ -185,7 +184,7 @@ export default function Dashboard() {
     }, [selectedChapter]);
 
 
-    // --- 4. GIAO DIỆN (UI REDESIGN) ---
+    // UI
     return (
         <div className="h-screen w-screen flex bg-slate-50 overflow-hidden font-sans text-slate-800">
 
@@ -197,9 +196,12 @@ export default function Dashboard() {
                     {selectedChapter ? (
                         <span className="font-black text-2xl tracking-tighter text-indigo-500">CN</span>
                     ) : (
-                        <h1 className="font-black text-2xl tracking-tight text-white flex items-center gap-2">
-                            <span className="text-indigo-500">Commie</span>Note
-                        </h1>
+                        <>
+                            <img src="/commienote.svg" className="h-8 w-auto mr-2" alt="Brand logo" />
+                            <h1 className="font-black text-2xl tracking-tight text-white flex items-center">
+                                <span className="text-indigo-500">Commie</span>Note
+                            </h1>
+                        </>
                     )}
                 </div>
 
@@ -300,7 +302,6 @@ export default function Dashboard() {
                                 </div>
                                 <div>
                                     <h2 className="text-lg font-bold text-slate-800">{selectedChapter.title}</h2>
-                                    <p className="text-xs text-slate-500">Your personal notes</p>
                                 </div>
                             </div>
                             <button onClick={handleSaveNote} className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2.5 rounded-lg font-medium transition shadow-md shadow-indigo-200 flex items-center gap-2 text-sm">
@@ -326,7 +327,7 @@ export default function Dashboard() {
                     <div className="h-full w-[400px] xl:w-[450px] bg-slate-50 flex flex-col shrink-0">
                         <div className="px-6 py-4 border-b border-slate-200 bg-slate-100/50 h-20 flex items-center shrink-0">
                             <h2 className="text-lg font-bold text-slate-800 flex items-center gap-2">
-                                <span className="text-indigo-500">✨</span> Master Note
+                                <span className="text-indigo-500">Master Note</span>
                             </h2>
                         </div>
 
