@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080';
+
 interface Topic {
     id: string;
     name: string;
@@ -69,7 +71,7 @@ export default function Dashboard() {
     const fetchTopics = async (isPublic: boolean) => {
         setIsLoadingTopics(true);
         try {
-            const endpoint = isPublic ? '/api/topics/public' : '/api/topics';
+            const endpoint = isPublic ? `${API_BASE_URL}/api/topics/public` : `${API_BASE_URL}/api/topics`;
             const res = await fetch(endpoint, { headers: { 'Authorization': `Bearer ${getToken()}` } });
             if (res.status === 401) return handleLogout();
             if (res.ok) setTopics(await res.json());
@@ -79,7 +81,7 @@ export default function Dashboard() {
 
     const fetchChapters = async (topicId: string) => {
         try {
-            const res = await fetch(`/api/chapters/topic/${topicId}`, { headers: { 'Authorization': `Bearer ${getToken()}` } });
+            const res = await fetch(`${API_BASE_URL}/api/chapters/topic/${topicId}`, { headers: { 'Authorization': `Bearer ${getToken()}` } });
             if (res.ok) setChapters(await res.json());
         } catch (err) { console.error(err); }
     };
@@ -88,7 +90,7 @@ export default function Dashboard() {
     const fetchUserNote = async (chapterId: string) => {
         setIsEditorLoading(true);
         try {
-            const res = await fetch(`/api/notes/chapter/${chapterId}`, { headers: { 'Authorization': `Bearer ${getToken()}` } });
+            const res = await fetch(`${API_BASE_URL}/api/notes/chapter/${chapterId}`, { headers: { 'Authorization': `Bearer ${getToken()}` } });
             if (res.status === 204) {
                 setNoteHtml("<h2>Bắt đầu viết Note của bạn...</h2><p><br></p>"); // Mẫu mặc định
             } else if (res.ok) {
@@ -103,7 +105,7 @@ export default function Dashboard() {
     const fetchMasterNote = async (chapterId: string) => {
         setIsMasterNoteLoading(true);
         try {
-            const res = await fetch(`/api/masternotes/chapter/${chapterId}`, { headers: { 'Authorization': `Bearer ${getToken()}` } });
+            const res = await fetch(`${API_BASE_URL}/api/masternotes/chapter/${chapterId}`, { headers: { 'Authorization': `Bearer ${getToken()}` } });
             if (res.status === 204) {
                 setMasterNote(null);
             } else if (res.ok) {
@@ -117,7 +119,7 @@ export default function Dashboard() {
     const handleCreateTopic = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            const res = await fetch('/api/topics', {
+            const res = await fetch(`${API_BASE_URL}/api/topics`, {
                 method: 'POST',
                 headers: { 'Authorization': `Bearer ${getToken()}`, 'Content-Type': 'application/json' },
                 body: JSON.stringify({ name: newTopicName, description: newTopicDesc })
@@ -133,7 +135,7 @@ export default function Dashboard() {
         e.preventDefault();
         if (!selectedTopic) return;
         try {
-            const res = await fetch('/api/chapters', {
+            const res = await fetch(`${API_BASE_URL}/api/chapters`, {
                 method: 'POST',
                 headers: { 'Authorization': `Bearer ${getToken()}`, 'Content-Type': 'application/json' },
                 body: JSON.stringify({ topicId: selectedTopic.id, title: newChapterTitle })
@@ -148,7 +150,7 @@ export default function Dashboard() {
     const handleSaveNote = async () => {
         if (!selectedChapter) return alert("Vui lòng chọn chapter trước!");
         try {
-            const res = await fetch('/api/notes', {
+            const res = await fetch(`${API_BASE_URL}/api/notes`, {
                 method: 'POST',
                 headers: { 'Authorization': `Bearer ${getToken()}`, 'Content-Type': 'application/json' },
                 body: JSON.stringify({ chapterId: selectedChapter.id, content: noteHtml })

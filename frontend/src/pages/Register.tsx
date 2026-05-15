@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080';
+
 export default function Register() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -12,7 +14,7 @@ export default function Register() {
         setMessage({ text: '', type: '' });
 
         try {
-            const response = await fetch('/api/auth/register', {
+            const response = await fetch(`${API_BASE_URL}/api/auth/register`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ username, password }),
@@ -24,7 +26,6 @@ export default function Register() {
 
             setMessage({ text: 'Đăng ký thành công! Đang chuyển hướng...', type: 'success' });
 
-            // Chờ 1.5 giây rồi chuyển về trang đăng nhập
             setTimeout(() => navigate('/login'), 1500);
         } catch (err: any) {
             setMessage({ text: err.message, type: 'error' });

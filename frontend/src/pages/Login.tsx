@@ -1,7 +1,10 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080';
+
 export default function Login() {
+
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -12,8 +15,7 @@ export default function Login() {
         setError('');
 
         try {
-            // Gọi API sang Backend (Nhờ Proxy, ta chỉ cần gõ /api/...)
-            const response = await fetch('/api/auth/login', {
+            const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ username, password }),
@@ -25,10 +27,7 @@ export default function Login() {
 
             const data = await response.json();
 
-            // Lưu Token vào LocalStorage để dùng cho các API sau
             localStorage.setItem('token', data.token);
-
-            // Chuyển hướng vào trang chủ
             navigate('/');
         } catch (err: any) {
             setError(err.message);
